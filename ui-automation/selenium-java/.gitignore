@@ -1,0 +1,6 @@
+target/
+test-output/
+.mvn
+.settings
+.project
+.classpath
