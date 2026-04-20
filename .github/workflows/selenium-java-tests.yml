@@ -55,4 +55,7 @@ jobs:
             ${{ runner.os }}-maven-
 
       - name: Run Tests
+        env:
+          SAUCEDEMO_USERNAME: ${{ secrets.SAUCEDEMO_STANDARD_USERNAME }}
+          SAUCEDEMO_PASSWORD: ${{ secrets.SAUCEDEMO_STANDARD_PASSWORD }}
         run: mvn test 
