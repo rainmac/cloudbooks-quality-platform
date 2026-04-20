@@ -24,16 +24,18 @@ jobs:
       - name: Verify Java version
         run: java -version
 
-      - name: Install Google Chrome
+      - name: Set up Chrome and ChromeDriver
+        id: setup-chrome
+        uses: browser-actions/setup-chrome@v2
+        with:
+          chrome-version: stable          # or pin to e.g. '124' for reproducibility
+          install-chromedriver: true
+          install-dependencies: true      # auto-installs required system libs on Linux
+ 
+      - name: Verify browser versions
         run: |
-          wget -q -O - https://dl.google.com/linux/linux_signing_key.pub \
-              | sudo gpg --dearmor -o /usr/share/keyrings/google-chrome.gpg
-            echo "deb [signed-by=/usr/share/keyrings/google-chrome.gpg] \
-              http://dl.google.com/linux/chrome/deb/ stable main" \
-              | sudo tee /etc/apt/sources.list.d/google-chrome.list
-            sudo apt-get update -qq
-            sudo apt-get install -y google-chrome-stable
-            google-chrome --version
+          ${{ steps.setup-chrome.outputs.chrome-path }} --version
+          ${{ steps.setup-chrome.outputs.chromedriver-path }} --version
 
       - name: Start Xvfb virtual display
         run: |
