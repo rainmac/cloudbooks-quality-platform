@@ -10,6 +10,9 @@ jobs:
   selenium-test:
     name: Run Selenium Java Tests
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./ui-automation/selenium-java
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
