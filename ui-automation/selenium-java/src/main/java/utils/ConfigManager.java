@@ -21,5 +21,5 @@ public class ConfigManager {
         return (value != null) ? value : defaultValue;
     }
 	
-	public static boolean isHeadless()   { return Boolean.parseBoolean(get("HEADLESS_BROWSER", "false")); }
+	public static boolean isHeadless()   { return Boolean.parseBoolean(get("HEADLESS_BROWSER", "true")); }
 }
