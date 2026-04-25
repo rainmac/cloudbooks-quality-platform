@@ -10,7 +10,7 @@ import org.testng.annotations.Test;
 import me.reiner.cloudbooks.ui.selenium.base.BaseTest;
 import me.reiner.cloudbooks.ui.selenium.pages.InventoryPage;
 import me.reiner.cloudbooks.ui.selenium.pages.LoginPage;
-import utils.ConfigManager;
+import me.reiner.cloudbooks.ui.selenium.utils.ConfigManager;
 
 public class LoginTest extends BaseTest {
 	

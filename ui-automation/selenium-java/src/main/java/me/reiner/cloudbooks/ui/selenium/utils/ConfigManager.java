@@ -1,4 +1,4 @@
-package utils;
+package me.reiner.cloudbooks.ui.selenium.utils;
 
 import io.github.cdimascio.dotenv.Dotenv;
 
@@ -21,5 +21,6 @@ public class ConfigManager {
         return (value != null) ? value : defaultValue;
     }
 	
-	public static boolean isHeadless()   { return Boolean.parseBoolean(get("HEADLESS_BROWSER", "true")); }
+	public static String getBaseUrl() 		{ return get("BASE_URL", "https://www.saucedemo.com"); }
+	public static boolean isHeadless()   	{ return Boolean.parseBoolean(get("HEADLESS_BROWSER", "true")); }
 }
