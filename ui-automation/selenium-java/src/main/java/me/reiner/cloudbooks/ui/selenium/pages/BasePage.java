@@ -1,4 +1,4 @@
-package me.reiner.cloudbooks.ui.selenium.base;
+package me.reiner.cloudbooks.ui.selenium.pages;
 
 import org.openqa.selenium.WebDriver;
 

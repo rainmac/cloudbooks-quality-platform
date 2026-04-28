@@ -1,24 +1,23 @@
 package me.reiner.cloudbooks.ui.selenium.pages;
 
+import java.io.IOException;
+
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.PageFactory;
 
-import me.reiner.cloudbooks.ui.selenium.base.BasePage;
+import me.reiner.cloudbooks.ui.selenium.utils.SmartElement;
 
 public class InventoryPage extends BasePage {
 	
-	@FindBy(className = "shopping_cart_link")
-	WebElement lnkShoppingCart;
+	private SmartElement smartElement;
 	
-	public InventoryPage(WebDriver driver) {
+	public InventoryPage(WebDriver driver) throws IOException {
 		super(driver);
-		PageFactory.initElements(driver, this);
+		smartElement = new SmartElement(driver, "InventoryPage");
 	}
 	
-	public WebElement getShoppingCartLink() {
-		return lnkShoppingCart;
+	public WebElement shoppingCartLink() throws IOException {
+		return smartElement.findElement("lnkShoppingCart");
 	}
 
 }

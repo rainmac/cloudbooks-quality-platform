@@ -1,9 +1,8 @@
 package me.reiner.cloudbooks.ui.selenium.tests;
 
+import java.io.IOException;
 import java.time.Duration;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -15,14 +14,15 @@ import me.reiner.cloudbooks.ui.selenium.utils.ConfigManager;
 public class LoginTest extends BaseTest {
 	
 	@Test
-	public void successfulLogin() throws InterruptedException {
+	public void successfulLogin() throws InterruptedException, IOException {
 		LoginPage loginPage = new LoginPage(driver);
 		loginPage.login(ConfigManager.get("SAUCEDEMO_USERNAME"), ConfigManager.get("SAUCEDEMO_PASSWORD"));
 		
 		InventoryPage inventoryPage = new InventoryPage(driver);
-		Assert.assertTrue(inventoryPage.getShoppingCartLink().isDisplayed());
+		Assert.assertTrue(inventoryPage.shoppingCartLink().isDisplayed());
 		
-		Thread.sleep(Duration.ofSeconds(5));
+		
+		Thread.sleep(Duration.ofSeconds(3));
 	}
 
 }

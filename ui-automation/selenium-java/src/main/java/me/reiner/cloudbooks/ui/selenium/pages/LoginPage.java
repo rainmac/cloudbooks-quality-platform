@@ -1,34 +1,25 @@
 package me.reiner.cloudbooks.ui.selenium.pages;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.PageFactory;
+import java.io.IOException;
 
-import me.reiner.cloudbooks.ui.selenium.base.BasePage;
+import org.openqa.selenium.WebDriver;
+
+import me.reiner.cloudbooks.ui.selenium.utils.SmartElement;
 
 public class LoginPage extends BasePage {
 	
-	@FindBy(id = "user-name")
-	private WebElement txtUserName;
-	
-	@FindBy(id = "password")
-	private WebElement txtPassword;
-	
-	@FindBy(id = "login-button")
-	private WebElement btnLogin;
+	private SmartElement smartElement;
 	
 	
-	public LoginPage(WebDriver driver) {
+	public LoginPage(WebDriver driver) throws IOException {
 		super(driver);
-		PageFactory.initElements(driver, this);
+		smartElement = new SmartElement(driver, "LoginPage");
 	}
 	
-	public void login(String username, String password) {
-		txtUserName.sendKeys("standard_user");
-		txtPassword.sendKeys("secret_sauce");
-		btnLogin.click();
+	public void login(String username, String password) throws IOException {
+		smartElement.findElement("txtUsername").sendKeys("standard_user");
+		smartElement.findElement("txtPassword").sendKeys("secret_sauce");
+		smartElement.findElement("btnLogin").click();
 	}
 
 }
