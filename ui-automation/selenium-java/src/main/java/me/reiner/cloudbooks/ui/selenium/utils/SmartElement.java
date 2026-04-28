@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -39,8 +40,10 @@ public class SmartElement {
 		//	1. Read Locator JSON file
 		JsonNode elementLocatorRoot = pageElements.get(elementKey);
 		
-		if (elementLocatorRoot == null) 
+		if (elementLocatorRoot == null) {
+			System.out.println("Element '" + elementKey + "' is not found in the Json Locator file.");
 			throw new NoSuchElementException("Element '" + elementKey + "' is not found in the Json Locator file.");
+		}
 		
 		LocatorElement elementLocator = mapper.treeToValue(elementLocatorRoot, LocatorElement.class);
 		
@@ -57,7 +60,8 @@ public class SmartElement {
 											.until(ExpectedConditions.presenceOfElementLocated(by));
 				return el;
 			}
-			catch(NoSuchElementException ex) {
+			catch(TimeoutException ex) {
+				System.out.println("Locator " + i + " for element '" + elementKey + "' not found: " + loc.getStrategy() + "=" + loc.getValue());
 				lastException = ex;
 			}
 		}
