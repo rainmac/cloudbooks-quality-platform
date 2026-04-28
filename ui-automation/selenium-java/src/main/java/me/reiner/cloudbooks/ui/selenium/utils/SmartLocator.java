@@ -20,7 +20,6 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 
 import me.reiner.cloudbooks.ui.selenium.model.Locator;
 import me.reiner.cloudbooks.ui.selenium.model.LocatorElement;
-import me.reiner.cloudbooks.ui.selenium.pages.LoginPage;
 
 public class SmartLocator {
 	

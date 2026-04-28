@@ -16,7 +16,7 @@ public class LoginTest extends BaseTest {
 	@Test
 	public void successfulLogin() throws InterruptedException, IOException {
 		LoginPage loginPage = new LoginPage(driver);
-		loginPage.login(ConfigManager.get("SAUCEDEMO_USERNAME"), ConfigManager.get("SAUCEDEMO_PASSWORD"));
+		loginPage.login(ConfigManager.getUsername(), ConfigManager.getPassword());
 		
 		InventoryPage inventoryPage = new InventoryPage(driver);
 		Assert.assertTrue(inventoryPage.shoppingCartLink().isDisplayed());

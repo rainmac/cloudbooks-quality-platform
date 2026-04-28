@@ -13,6 +13,14 @@ jobs:
     defaults:
       run:
         working-directory: ./ui-automation/selenium-java
+    env:
+      LOG_LEVEL: ${{ vars.LOG_LEVEL || 'WARN' }}
+      LOG_DIR: ${{ vars.LOG_DIR || 'target/logs' }}
+      LOG_CONSOLE_ENABLED: ${{ vars.LOG_CONSOLE_ENABLED || 'true' }}
+      LOG_FILE_ENABLED: ${{ vars.LOG_FILE_ENABLED || 'true' }}
+      ENV: ${{ vars.ENV || 'QA' }}
+      BROWSER: ${{ vars.BROWSER || 'chrome' }}
+      BASE_URL: ${{ secrets.BASE_URL }}
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4

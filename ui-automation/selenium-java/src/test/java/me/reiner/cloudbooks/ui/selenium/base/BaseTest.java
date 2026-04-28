@@ -25,14 +25,14 @@ public class BaseTest {
 	public void globalSetup() {
 	    LoggingConfigurator.configure();
 	    log.info("Framework initialized | ENV={} | BROWSER={}",
-	        ConfigManager.get("ENV"),
-	        ConfigManager.get("BROWSER"));
+	    		ConfigManager.getEnv(),
+	    		ConfigManager.getBrowser());
 	}
 	
 	@BeforeMethod
 	public void setup(java.lang.reflect.Method method) {
 		String testName = method.getName();
-		LoggerUtil.setTestContext(testName, ConfigManager.get("BROWSER"), ConfigManager.get("ENV"));
+		LoggerUtil.setTestContext(testName, ConfigManager.getBrowser(), ConfigManager.getEnv());
 
         log.info("========== Starting Test: {} ==========", testName);
         log.debug("Initializing WebDriver...");
