@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN" monitorInterval="30">
+
+    <Properties>
+        <Property name="APP_LOG_DIR">${sys:LOG_DIR:-target/logs}</Property>
+        <Property name="APP_LOG_LEVEL">${sys:LOG_LEVEL:-INFO}</Property>
+        <!-- ✅ Renamed to APP_LOG_PATTERN to be consistent -->
+        <Property name="APP_LOG_PATTERN">%d{yyyy-MM-dd HH:mm:ss} [%t] %-5level %logger{36} - %msg%n</Property>
+    </Properties>
+
+    <Appenders>
+        <Console name="ConsoleAppender" target="SYSTEM_OUT">
+            <!-- ✅ Now matches the property name above -->
+            <PatternLayout pattern="${APP_LOG_PATTERN}"/>
+            <ThresholdFilter level="${APP_LOG_LEVEL}" onMatch="ACCEPT" onMismatch="DENY"/>
+        </Console>
+
+        <RollingFile name="FileAppender"
+                     fileName="${APP_LOG_DIR}/automation.log"
+                     filePattern="${APP_LOG_DIR}/automation-%d{yyyy-MM-dd}-%i.log.gz">
+            <!-- ✅ Same fix here -->
+            <PatternLayout pattern="${APP_LOG_PATTERN}"/>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="10MB"/>
+                <TimeBasedTriggeringPolicy interval="1"/>
+            </Policies>
+            <DefaultRolloverStrategy max="30"/>
+        </RollingFile>
+
+        <!-- Separate Error Log -->
+        <RollingFile name="ErrorAppender"
+                     fileName="${APP_LOG_DIR}/errors.log"
+                     filePattern="${APP_LOG_DIR}/errors-%d{yyyy-MM-dd}.log.gz">
+            <PatternLayout pattern="${APP_LOG_PATTERN}"/>
+            <ThresholdFilter level="ERROR" onMatch="ACCEPT" onMismatch="DENY"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="1"/>
+            </Policies>
+        </RollingFile>
+    </Appenders>
+
+    <Loggers>
+        <!-- Framework-specific logger -->
+        <Logger name="me.reiner.cloudbooks.ui.selenium" level="${APP_LOG_LEVEL}" additivity="false">
+            <AppenderRef ref="ConsoleAppender"/>
+            <AppenderRef ref="FileAppender"/>
+            <AppenderRef ref="ErrorAppender"/>
+        </Logger>
+
+		<Logger name="org.testng" level="WARN" />
+
+        <!-- Root logger -->
+        <Root level="${APP_LOG_LEVEL}">
+            <AppenderRef ref="ConsoleAppender"/>
+            <AppenderRef ref="FileAppender"/>
+        </Root>
+    </Loggers>
+
+</Configuration>

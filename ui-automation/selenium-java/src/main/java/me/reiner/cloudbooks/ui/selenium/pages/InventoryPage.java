@@ -5,15 +5,15 @@ import java.io.IOException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
-import me.reiner.cloudbooks.ui.selenium.utils.SmartElement;
+import me.reiner.cloudbooks.ui.selenium.utils.SmartLocator;
 
 public class InventoryPage extends BasePage {
 	
-	private SmartElement smartElement;
+	private SmartLocator smartElement;
 	
 	public InventoryPage(WebDriver driver) throws IOException {
 		super(driver);
-		smartElement = new SmartElement(driver, "InventoryPage");
+		smartElement = new SmartLocator(driver, "InventoryPage");
 	}
 	
 	public WebElement shoppingCartLink() throws IOException {

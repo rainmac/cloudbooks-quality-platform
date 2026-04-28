@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.time.Duration;
 import java.util.List;
 
+import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.TimeoutException;
@@ -19,14 +20,17 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 
 import me.reiner.cloudbooks.ui.selenium.model.Locator;
 import me.reiner.cloudbooks.ui.selenium.model.LocatorElement;
+import me.reiner.cloudbooks.ui.selenium.pages.LoginPage;
 
-public class SmartElement {
+public class SmartLocator {
+	
+	private static final Logger log = LoggerUtil.getLogger(SmartLocator.class);
 	
 	private WebDriver driver;
 	private ObjectMapper mapper = new ObjectMapper();
 	private JsonNode pageElements;
 	
-	public SmartElement(WebDriver driver, String page) throws IOException {
+	public SmartLocator(WebDriver driver, String page) throws IOException {
 		this.driver = driver;
 		
 		String jsonFileName = page.replaceAll("([a-z])([A-Z])", "$1-$2").toLowerCase();
@@ -41,7 +45,7 @@ public class SmartElement {
 		JsonNode elementLocatorRoot = pageElements.get(elementKey);
 		
 		if (elementLocatorRoot == null) {
-			System.out.println("Element '" + elementKey + "' is not found in the Json Locator file.");
+			log.debug("Element '" + elementKey + "' is not found in the Json Locator file.");
 			throw new NoSuchElementException("Element '" + elementKey + "' is not found in the Json Locator file.");
 		}
 		
@@ -61,7 +65,7 @@ public class SmartElement {
 				return el;
 			}
 			catch(TimeoutException ex) {
-				System.out.println("Locator " + i + " for element '" + elementKey + "' not found: " + loc.getStrategy() + "=" + loc.getValue());
+				log.debug("Locator " + i + " for element '" + elementKey + "' not found: " + loc.getStrategy() + "=" + loc.getValue());
 				lastException = ex;
 			}
 		}
