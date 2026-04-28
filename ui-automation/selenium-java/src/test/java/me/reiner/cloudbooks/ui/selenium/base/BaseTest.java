@@ -18,7 +18,6 @@ import me.reiner.cloudbooks.ui.selenium.utils.LoggingConfigurator;
 public class BaseTest {
 	
 	protected WebDriver driver;
-	protected String baseUrl = ConfigManager.getBaseUrl();
 	protected static final Logger log = LoggerUtil.getLogger(BaseTest.class);
 	
 	@BeforeSuite(alwaysRun = true)
@@ -46,7 +45,7 @@ public class BaseTest {
 		driver = new ChromeDriver(options);
 		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
 		driver.manage().window().maximize();
-		driver.get(baseUrl);
+		driver.get(ConfigManager.getBaseUrl());
 		
 		log.info("WebDriver initialized successfully");
 	}
