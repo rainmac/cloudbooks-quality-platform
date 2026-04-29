@@ -10,9 +10,9 @@
 		        "nearbyText":    ["Username", "Email", "User ID"],
 		        "formContext":   "Part of the main login form, usually inside a card or centered panel"
 			},
-			"primary": { "strategy": "id",    "value": "user-name" },
-			"fallback1": { "strategy": "css",   "value": "input[placeholder='Username']" },
-			"fallback2": { "strategy": "css",   "value": "input[data-test='username']" }
+			"primary": { "strategy": "id",    "value": "user-name1" },
+			"fallback1": { "strategy": "css",   "value": "input[placeholder='Username1']" },
+			"fallback2": { "strategy": "css",   "value": "input[data-test='username1']" }
 		},
 		"txtPassword": {
 			"description": "Password input field",
