@@ -60,8 +60,8 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-maven-
 
-      - name: Run Tests
+      - name: Run TestNG Suite
         env:
           SAUCEDEMO_USERNAME: ${{ secrets.SAUCEDEMO_STANDARD_USERNAME }}
           SAUCEDEMO_PASSWORD: ${{ secrets.SAUCEDEMO_STANDARD_PASSWORD }}
-        run: mvn test 
+        run: mvn test -DsuiteXmlFile=./ui-automation/selenium-java/testng.xml

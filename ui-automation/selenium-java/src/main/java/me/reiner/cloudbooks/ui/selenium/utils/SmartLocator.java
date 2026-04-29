@@ -44,7 +44,7 @@ public class SmartLocator {
 		JsonNode elementLocatorRoot = pageElements.get(elementKey);
 		
 		if (elementLocatorRoot == null) {
-			log.debug("Element '" + elementKey + "' is not found in the Json Locator file.");
+			log.info("Element '" + elementKey + "' is not found in the Json Locator file.");
 			throw new NoSuchElementException("Element '" + elementKey + "' is not found in the Json Locator file.");
 		}
 		
@@ -64,7 +64,7 @@ public class SmartLocator {
 				return el;
 			}
 			catch(TimeoutException ex) {
-				log.debug("Locator " + i + " for element '" + elementKey + "' not found: " + loc.getStrategy() + "=" + loc.getValue());
+				log.info("Locator " + i + " for element '" + elementKey + "' not found: " + loc.getStrategy() + "=" + loc.getValue());
 				lastException = ex;
 			}
 		}
