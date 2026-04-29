@@ -19,6 +19,8 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<suiteXmlFile>testng.xml</suiteXmlFile>
+		<allure.version>2.34.0</allure.version>
+		<aspectj.version>1.9.20.1</aspectj.version>
 	</properties>
 
 	<dependencies>
@@ -67,30 +69,19 @@
 			<version>3.5.5</version>
 			<scope>compile</scope>
 		</dependency>
+		<dependency>
+			<groupId>io.qameta.allure</groupId>
+			<artifactId>allure-testng</artifactId>
+			<version>${allure.version}</version>
+			<scope>test</scope>
+		</dependency>
 
 	</dependencies>
 
 	<build>
 		<pluginManagement>
 			<plugins>
-				<plugin>
-					<artifactId>maven-clean-plugin</artifactId>
-					<version>3.4.0</version>
-				</plugin>
-				<plugin>
-					<artifactId>maven-site-plugin</artifactId>
-					<version>3.12.1</version>
-				</plugin>
-				<plugin>
-					<artifactId>maven-project-info-reports-plugin</artifactId>
-					<version>3.6.1</version>
-				</plugin>
-				<!-- see
-				http://maven.apache.org/ref/current/maven-core/default-bindings.html#Plugin_bindings_for_jar_packaging -->
-				<plugin>
-					<artifactId>maven-resources-plugin</artifactId>
-					<version>3.3.1</version>
-				</plugin>
+				<!-- Core Build Plugins -->
 				<plugin>
 					<artifactId>maven-compiler-plugin</artifactId>
 					<version>3.13.0</version>
@@ -100,8 +91,18 @@
 					<version>3.3.0</version>
 				</plugin>
 				<plugin>
+					<artifactId>maven-resources-plugin</artifactId>
+					<version>3.3.1</version>
+				</plugin>
+				<plugin>
 					<artifactId>maven-jar-plugin</artifactId>
 					<version>3.4.2</version>
+				</plugin>
+
+				<!-- Maintenance Plugins -->
+				<plugin>
+					<artifactId>maven-clean-plugin</artifactId>
+					<version>3.4.0</version>
 				</plugin>
 				<plugin>
 					<artifactId>maven-install-plugin</artifactId>
@@ -110,6 +111,16 @@
 				<plugin>
 					<artifactId>maven-deploy-plugin</artifactId>
 					<version>3.1.2</version>
+				</plugin>
+
+				<!-- Documentation (Optional - delete if not used) -->
+				<plugin>
+					<artifactId>maven-site-plugin</artifactId>
+					<version>3.12.1</version>
+				</plugin>
+				<plugin>
+					<artifactId>maven-project-info-reports-plugin</artifactId>
+					<version>3.6.1</version>
 				</plugin>
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
@@ -120,6 +131,31 @@
 							<!-- Default suite file, overridable via -DsuiteXmlFile=... -->
 							<suiteXmlFile>${suiteXmlFile}</suiteXmlFile>
 						</suiteXmlFiles>
+						<argLine>
+							-javaagent:"${settings.localRepository}/org/aspectj/aspectjweaver/${aspectj.version}/aspectjweaver-${aspectj.version}.jar"
+						</argLine>
+						<systemPropertyVariables>
+							<allure.results.directory>
+								${project.build.directory}/allure-results</allure.results.directory>
+						</systemPropertyVariables>
+					</configuration>
+					<dependencies>
+						<dependency>
+							<groupId>org.aspectj</groupId>
+							<artifactId>aspectjweaver</artifactId>
+							<version>${aspectj.version}</version>
+						</dependency>
+					</dependencies>
+				</plugin>
+				<!-- Allure Maven: generates the HTML report -->
+				<plugin>
+					<groupId>io.qameta.allure</groupId>
+					<artifactId>allure-maven</artifactId>
+					<version>2.12.0</version>
+					<configuration>
+						<reportVersion>${allure.version}</reportVersion>
+						<resultsDirectory>${project.build.directory}/allure-results</resultsDirectory>
+						<reportDirectory>${project.build.directory}/allure-report</reportDirectory>
 					</configuration>
 				</plugin>
 			</plugins>

@@ -60,8 +60,21 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-maven-
 
-      - name: Run TestNG Suite
+      - name: Run tests
         env:
           SAUCEDEMO_USERNAME: ${{ secrets.SAUCEDEMO_STANDARD_USERNAME }}
           SAUCEDEMO_PASSWORD: ${{ secrets.SAUCEDEMO_STANDARD_PASSWORD }}
-        run: mvn test
+        run: mvn clean test
+        continue-on-error: true
+
+      - name: Generate Allure report
+        run: mvn allure:report
+        if: always()
+
+      - name: Upload Allure report as artifact
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: allure-report-${{ github.run_number }}
+          path: target/allure-report
+          retention-days: 30s

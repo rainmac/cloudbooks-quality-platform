@@ -1,8 +1,11 @@
 package me.reiner.cloudbooks.ui.selenium.base;
 
+import java.io.ByteArrayInputStream;
 import java.time.Duration;
 
 import org.apache.logging.log4j.Logger;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -11,6 +14,7 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeSuite;
 
+import io.qameta.allure.Allure;
 import me.reiner.cloudbooks.ui.selenium.utils.ConfigManager;
 import me.reiner.cloudbooks.ui.selenium.utils.LoggerUtil;
 import me.reiner.cloudbooks.ui.selenium.utils.LoggingConfigurator;
@@ -55,12 +59,13 @@ public class BaseTest {
 		String testName = result.getName();
 
         if (result.getStatus() == ITestResult.FAILURE) {
-            log.error("TEST FAILED: {} | Reason: {}",
-                testName, result.getThrowable().getMessage());
-            // captureScreenshot(testName);
-        } else if (result.getStatus() == ITestResult.SUCCESS) {
+            log.error("TEST FAILED: {} | Reason: {}", testName, result.getThrowable().getMessage());
+            attachScreenshot(result.getName());
+        } 
+        else if (result.getStatus() == ITestResult.SUCCESS) {
             log.info("TEST PASSED: {}", testName);
-        } else {
+        } 
+        else {
             log.warn("TEST SKIPPED: {}", testName);
         }
 
@@ -70,5 +75,21 @@ public class BaseTest {
 		
 		LoggerUtil.clearContext();
 	}
+	
+	private void attachScreenshot(String testName) {
+        try {
+            byte[] screenshot = ((TakesScreenshot) driver)
+                    .getScreenshotAs(OutputType.BYTES);
+            Allure.addAttachment(
+                "Screenshot — " + testName,
+                "image/png",
+                new ByteArrayInputStream(screenshot),
+                "png"
+            );
+        } 
+        catch (Exception e) {
+            log.error("[Allure] Failed to capture screenshot: " + e.getMessage());
+        }
+    }
 
 }
