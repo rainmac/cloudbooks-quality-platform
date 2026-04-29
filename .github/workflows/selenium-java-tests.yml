@@ -67,26 +67,10 @@ jobs:
         run: mvn clean test -DsuiteXmlFile=testng.xml
         continue-on-error: true
 
-      - name: Debug — check allure-results content
-        if: always()
-        run: |
-          echo "=== allure-results file count ==="
-          find target/allure-results -type f | wc -l
-          echo "=== allure-results files ==="
-          find target/allure-results -type f
-
       - name: Generate Allure report
         if: always()
         run: mvn allure:report
         
-      - name: Debug — list after report generation
-        if: always()
-        run: |
-          echo "=== target/ after allure:report ==="
-          ls -la target/
-          echo "=== site/ contents ==="
-          ls -la target/site/ || echo "target/site does not exist"
-
       - name: Upload Allure report as artifact
         uses: actions/upload-artifact@v4
         if: always()
