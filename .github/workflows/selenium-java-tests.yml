@@ -64,12 +64,28 @@ jobs:
         env:
           SAUCEDEMO_USERNAME: ${{ secrets.SAUCEDEMO_STANDARD_USERNAME }}
           SAUCEDEMO_PASSWORD: ${{ secrets.SAUCEDEMO_STANDARD_PASSWORD }}
-        run: mvn clean test
+        run: mvn clean test -DsuiteXmlFile=testng.xml
         continue-on-error: true
 
-      - name: Generate Allure report
-        run: mvn allure:report
+      - name: Debug — list target directory
         if: always()
+        run: |
+          echo "=== target/ contents ==="
+          ls -la target/ || echo "target/ does not exist"
+          echo "=== allure-results contents ==="
+          ls -la target/allure-results/ || echo "allure-results does not exist"
+
+      - name: Generate Allure report
+        if: always()
+        run: mvn allure:report
+        
+      - name: Debug — list after report generation
+        if: always()
+        run: |
+          echo "=== target/ after allure:report ==="
+          ls -la target/
+          echo "=== site/ contents ==="
+          ls -la target/site/ || echo "target/site does not exist"
 
       - name: Upload Allure report as artifact
         uses: actions/upload-artifact@v4
@@ -77,4 +93,4 @@ jobs:
         with:
           name: allure-report-${{ github.run_number }}
           path: target/allure-report
-          retention-days: 30s
+          retention-days: 30
