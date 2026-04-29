@@ -64,4 +64,4 @@ jobs:
         env:
           SAUCEDEMO_USERNAME: ${{ secrets.SAUCEDEMO_STANDARD_USERNAME }}
           SAUCEDEMO_PASSWORD: ${{ secrets.SAUCEDEMO_STANDARD_PASSWORD }}
-        run: mvn test -DsuiteXmlFile=./ui-automation/selenium-java/testng.xml
+        run: mvn test
