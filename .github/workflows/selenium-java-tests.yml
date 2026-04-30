@@ -80,5 +80,5 @@ jobs:
           retention-days: 30
 
       - name: Fail build if tests failed
-        if: steps.run-tests.outcome == 'failure'
+        if: steps.run-tests.conclusion == 'failure'
         run: exit 1
