@@ -67,6 +67,12 @@ jobs:
         run: mvn clean test -DsuiteXmlFile=testng.xml
         continue-on-error: true
 
+      - name: Debug — check test outcome
+        if: always()
+        run: |
+          echo "Step outcome: ${{ steps.run-tests.outcome }}"
+          echo "Step conclusion: ${{ steps.run-tests.conclusion }}"
+
       - name: Generate Allure report
         if: always()
         run: mvn allure:report
