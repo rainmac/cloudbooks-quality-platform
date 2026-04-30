@@ -1,4 +1,4 @@
-package me.reiner.cloudbooks.ui.selenium.utils;
+package me.reiner.cloudbooks.ui.selenium.config;
 
 import io.github.cdimascio.dotenv.Dotenv;
 
@@ -35,13 +35,35 @@ public class ConfigManager {
 	// ─── Typed helpers ───────────────────────────────
     public static boolean getBoolean(String key, boolean defaultValue) {
     	String value = get(key, String.valueOf(defaultValue));
-        return Boolean.parseBoolean(value);
+        
+    	return Boolean.parseBoolean(value);
+    }
+    
+    public static String getBrowser() {
+        String value = System.getProperty("browser");
+        
+        if (value == null) value = get("BROWSER", "chrome");
+        
+        return value.trim().toLowerCase();
+    }
+    
+    public static boolean isHeadless() {
+        String sysProp = System.getProperty("headless");
+        
+        if (sysProp != null) return Boolean.parseBoolean(sysProp);
+        
+        return Boolean.parseBoolean(get("HEADLESS", "true"));
+    }
+    
+    public static String getEnv() {
+        String value = System.getProperty("env");
+        
+        if (value == null) value = get("ENV", "QA");
+        
+        return value.trim().toLowerCase();
     }
 	
 	public static String getBaseUrl() 			{ return get("BASE_URL", "https://www.saucedemo.com"); }
-	public static boolean isHeadless()   		{ return Boolean.parseBoolean(get("HEADLESS_BROWSER", "true")); }
-	public static String getEnv()               { return get("ENV", "QA");    }
-    public static String getBrowser()           { return get("BROWSER", "chrome");}
 	
 	// ─── Logging-specific getters ────────────────────
     public static String getLogLevel()          { return get("LOG_LEVEL", "INFO"); }

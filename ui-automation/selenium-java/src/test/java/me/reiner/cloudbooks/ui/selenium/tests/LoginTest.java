@@ -12,9 +12,9 @@ import io.qameta.allure.Severity;
 import io.qameta.allure.SeverityLevel;
 import io.qameta.allure.Story;
 import me.reiner.cloudbooks.ui.selenium.base.BaseTest;
+import me.reiner.cloudbooks.ui.selenium.config.ConfigManager;
 import me.reiner.cloudbooks.ui.selenium.pages.InventoryPage;
 import me.reiner.cloudbooks.ui.selenium.pages.LoginPage;
-import me.reiner.cloudbooks.ui.selenium.utils.ConfigManager;
 
 @Epic("Authentication")
 @Feature("Login")

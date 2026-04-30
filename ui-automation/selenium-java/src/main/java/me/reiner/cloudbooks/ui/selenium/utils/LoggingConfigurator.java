@@ -6,6 +6,8 @@ import org.apache.logging.log4j.core.LoggerContext;
 import org.apache.logging.log4j.core.config.Configuration;
 import org.apache.logging.log4j.core.config.LoggerConfig;
 
+import me.reiner.cloudbooks.ui.selenium.config.ConfigManager;
+
 public class LoggingConfigurator {
 	
 	private LoggingConfigurator() {}
@@ -31,8 +33,7 @@ public class LoggingConfigurator {
         LoggerConfig rootConfig = config.getRootLogger();
         rootConfig.setLevel(level);
 
-        // Update your framework-specific logger
-        LoggerConfig frameworkConfig = config.getLoggerConfig("com.yourcompany.framework");
+        LoggerConfig frameworkConfig = config.getLoggerConfig("me.reiner.cloudbooks.ui.selenium");
         if (frameworkConfig != null) {
             frameworkConfig.setLevel(level);
         }

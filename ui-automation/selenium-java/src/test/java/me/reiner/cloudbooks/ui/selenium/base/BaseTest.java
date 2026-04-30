@@ -7,15 +7,14 @@ import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.ITestResult;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeSuite;
 
 import io.qameta.allure.Allure;
-import me.reiner.cloudbooks.ui.selenium.utils.ConfigManager;
+import me.reiner.cloudbooks.ui.selenium.config.ConfigManager;
+import me.reiner.cloudbooks.ui.selenium.driver.DriverFactory;
 import me.reiner.cloudbooks.ui.selenium.utils.LoggerUtil;
 import me.reiner.cloudbooks.ui.selenium.utils.LoggingConfigurator;
 
@@ -37,21 +36,20 @@ public class BaseTest {
 		String testName = method.getName();
 		LoggerUtil.setTestContext(testName, ConfigManager.getBrowser(), ConfigManager.getEnv());
 
-        log.info("========== Starting Test: {} ==========", testName);
-        log.debug("Initializing WebDriver...");
-        
-		ChromeOptions options = new ChromeOptions();
-		
-		if (ConfigManager.isHeadless()) {
-			options.addArguments("--headless=new");
-		}
-		
-		driver = new ChromeDriver(options);
-		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
-		driver.manage().window().maximize();
-		driver.get(ConfigManager.getBaseUrl());
-		
-		log.info("WebDriver initialized successfully");
+		log.info("========== Starting Test: {} ==========", testName);
+	    log.debug("Initializing WebDriver — browser: {}, headless: {}",
+	        ConfigManager.getBrowser(), ConfigManager.isHeadless());
+
+	    driver = DriverFactory.createDriver(
+	        ConfigManager.getBrowser(),
+	        ConfigManager.isHeadless()
+	    );
+
+	    driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+	    driver.manage().window().maximize();
+	    driver.get(ConfigManager.getBaseUrl());
+
+	    log.info("WebDriver initialized successfully");
 	}
 	
 	@AfterMethod
