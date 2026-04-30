@@ -65,9 +65,9 @@ jobs:
           SAUCEDEMO_USERNAME: ${{ secrets.SAUCEDEMO_STANDARD_USERNAME }}
           SAUCEDEMO_PASSWORD: ${{ secrets.SAUCEDEMO_STANDARD_PASSWORD }}
         run: |
+          set +e
           mvn clean test -DsuiteXmlFile=testng.xml
           echo "MAVEN_EXIT_CODE=$?" >> $GITHUB_ENV
-        continue-on-error: true
 
       - name: Generate Allure report
         if: always()
