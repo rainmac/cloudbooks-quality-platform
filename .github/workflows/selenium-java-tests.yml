@@ -64,14 +64,10 @@ jobs:
         env:
           SAUCEDEMO_USERNAME: ${{ secrets.SAUCEDEMO_STANDARD_USERNAME }}
           SAUCEDEMO_PASSWORD: ${{ secrets.SAUCEDEMO_STANDARD_PASSWORD }}
-        run: mvn clean test -DsuiteXmlFile=testng.xml
-        continue-on-error: true
-
-      - name: Debug — check test outcome
-        if: always()
         run: |
-          echo "Step outcome: ${{ steps.run-tests.outcome }}"
-          echo "Step conclusion: ${{ steps.run-tests.conclusion }}"
+          mvn clean test -DsuiteXmlFile=testng.xml
+          echo "MAVEN_EXIT_CODE=$?" >> $GITHUB_ENV
+        continue-on-error: true
 
       - name: Generate Allure report
         if: always()
@@ -86,5 +82,7 @@ jobs:
           retention-days: 30
 
       - name: Fail build if tests failed
-        if: steps.run-tests.conclusion == 'failure'
-        run: exit 1
+        if: always()
+        run: |
+          echo "Maven exit code was: $MAVEN_EXIT_CODE"
+          exit $MAVEN_EXIT_CODE
