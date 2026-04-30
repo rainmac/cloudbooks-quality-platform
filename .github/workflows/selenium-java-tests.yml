@@ -78,3 +78,7 @@ jobs:
           name: allure-report-${{ github.run_number }}
           path: ui-automation/selenium-java/target/allure-report
           retention-days: 30
+
+      - name: Fail build if tests failed
+        if: steps.run-tests.outcome == 'failure'
+        run: exit 1
