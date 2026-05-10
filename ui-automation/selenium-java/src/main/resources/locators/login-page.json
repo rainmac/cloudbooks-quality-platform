@@ -11,8 +11,7 @@
 		        "formContext":   "Part of the main login form, usually inside a card or centered panel"
 			},
 			"primary": { "strategy": "id",    "value": "user-name" },
-			"fallback1": { "strategy": "css",   "value": "input[placeholder='Username']" },
-			"fallback2": { "strategy": "css",   "value": "input[data-test='username']" }
+			"fallback1": { "strategy": "css",   "value": "input[placeholder='Username']" }
 		},
 		"txtPassword": {
 			"description": "Password input field",
@@ -24,8 +23,7 @@
 		        "formContext":   "Part of the main login form, usually inside a card or centered panel"
 			},
 			"primary": { "strategy": "id",    "value": "password" },
-			"fallback1": { "strategy": "css",   "value": "input[placeholder='Password']" },
-			"fallback2": { "strategy": "css",   "value": "input[data-test='password']" }
+			"fallback1": { "strategy": "css",   "value": "input[placeholder='Password']" }
 		},
 		"btnLogin": {
 			"description": "Submit login form",
@@ -37,8 +35,7 @@
 		        "formContext":   "Last interactive element in the login form"
 			},
 			"primary": { "strategy": "id",    "value": "login-button" },
-			"fallback1": { "strategy": "className",   "value": "submit-button" },
-			"fallback2": { "strategy": "css",   "value": "input[data-test='login-button']" }
+			"fallback1": { "strategy": "className",   "value": "submit-button" }
 		}
 	}
 }

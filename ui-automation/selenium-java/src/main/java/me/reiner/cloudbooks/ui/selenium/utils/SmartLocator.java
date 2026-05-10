@@ -18,7 +18,11 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
+import me.reiner.cloudbooks.ui.selenium.ai.AIWebElementLocator;
+import me.reiner.cloudbooks.ui.selenium.ai.ClaudeElementFinder;
+import me.reiner.cloudbooks.ui.selenium.config.ConfigManager;
 import me.reiner.cloudbooks.ui.selenium.model.Locator;
+import me.reiner.cloudbooks.ui.selenium.model.LocatorContext;
 import me.reiner.cloudbooks.ui.selenium.model.LocatorElement;
 
 public class SmartLocator {
@@ -58,10 +62,7 @@ public class SmartLocator {
 			Locator loc = locators.get(i);
 			
 			try {
-				By by = toBy(loc);
-				WebElement el = new WebDriverWait(driver, Duration.ofSeconds(5))
-											.until(ExpectedConditions.presenceOfElementLocated(by));
-				return el;
+				return getWebElement(loc);
 			}
 			catch(TimeoutException ex) {
 				log.info("Locator " + i + " for element '" + elementKey + "' not found: " + loc.getStrategy() + "=" + loc.getValue());
@@ -69,25 +70,64 @@ public class SmartLocator {
 			}
 		}
 		
-		throw new RuntimeException("Web Element " + elementKey + " not found using all its locators: ", lastException);
+		log.warn("Web Element " + elementKey + " not found using all its defined locators: " + lastException);
+		
+		if (ConfigManager.isAIHealerEnabled()) {
+			log.info("Locating web element " + elementKey + " locator using AI");
+			Locator aiElementLocator = findElementLocatorUsingAI(driver, elementLocator.getContext());
+			
+			if (aiElementLocator == null) {
+				log.warn("Web Element " + elementKey + " not found using AI");
+				throw new NoSuchElementException("Web Element " + elementKey + " not found using all its locators including AI.");
+			}
+			
+			try {
+				return getWebElement(aiElementLocator);
+			}
+			catch(TimeoutException ex) {
+				log.info("Element '" + elementKey + "' not found using AI.");
+			}
+		}
+		
+		throw new NoSuchElementException("Web Element " + elementKey + " not found using all its locators including AI.");
+		
+	}
 	
-		// TODO:
-		//	4. Use AI to find the match locator
-		//	5. Create Git PR to update the locators
+	public Locator findElementLocatorUsingAI(WebDriver driver, LocatorContext elementLocator) throws IOException {
 		
+		AIWebElementLocator ai;
 		
+		if (ConfigManager.getAIHealerProvider().equals("CLAUDE_CODE")) {
+			ai = ClaudeElementFinder.getInstance();
+			return ai.findLocator(driver, elementLocator);
+			
+		}
+		else if (ConfigManager.getAIHealerProvider().equals("OLLAMA")) {
+			// call findLocator for Ollama here
+		}
+		
+		return null;
 	}
 	
 	private By toBy(Locator loc) {
         return switch (loc.getStrategy().toLowerCase()) {
-            case "id"        -> By.id(loc.getValue());
-            case "class"     -> By.className(loc.getValue());
-            case "css"       -> By.cssSelector(loc.getValue());
-            case "xpath"     -> By.xpath(loc.getValue());
-            case "name"      -> By.name(loc.getValue());
-            case "linktext"  -> By.linkText(loc.getValue());
-            default -> throw new IllegalArgumentException("Unknown strategy: " + loc.getStrategy());
+            case "id"        		-> By.id(loc.getValue());
+            case "name"      		-> By.name(loc.getValue());
+            case "classname" 		-> By.className(loc.getValue());
+            case "tagname"   		-> By.tagName(loc.getValue());
+            case "linktext"  		-> By.linkText(loc.getValue());
+            case "partiallinktext"	-> By.partialLinkText(loc.getValue());
+            case "css"       		-> By.cssSelector(loc.getValue());
+            case "xpath"     		-> By.xpath(loc.getValue());
+            default 				-> throw new IllegalArgumentException("Unknown strategy: " + loc.getStrategy());
         };
     }
+	
+	private WebElement getWebElement(Locator locator) throws TimeoutException {
+		By by = toBy(locator);
+		WebElement el = new WebDriverWait(driver, Duration.ofSeconds(5))
+										.until(ExpectedConditions.presenceOfElementLocated(by));
+		return el;
+	}
 
 }

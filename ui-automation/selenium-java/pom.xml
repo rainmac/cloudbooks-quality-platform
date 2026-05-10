@@ -69,6 +69,17 @@
 			<version>${allure.version}</version>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+			<groupId>com.anthropic</groupId>
+			<artifactId>anthropic-java</artifactId>
+			<version>2.30.0</version>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.jsoup</groupId>
+			<artifactId>jsoup</artifactId>
+			<version>1.22.2</version>
+		</dependency>
 
 	</dependencies>
 

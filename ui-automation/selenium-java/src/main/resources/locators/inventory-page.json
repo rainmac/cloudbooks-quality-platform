@@ -10,7 +10,7 @@
 		        "nearbyText":    ["Shopping Cart"],
 		        "formContext":   "Part of the top header, usually inside a div or header"
 			},
-			"primary": { "strategy": "class",   "value": "shopping_cart_link" },
+			"primary": { "strategy": "classname",   "value": "shopping_cart_link" },
 			"fallback1": { "strategy": "css",   "value": "a[data-test='shopping-cart-link']" }
 		}
 	}

@@ -74,4 +74,9 @@ public class ConfigManager {
     // ─── Application-specific getters ─────────────────
     public static String getUsername()			{ return get("SAUCEDEMO_USERNAME", ""); }	
     public static String getPassword()			{ return get("SAUCEDEMO_PASSWORD", ""); }	
+    
+ // ─── AI-specific getters ─────────────────
+    public static boolean isAIHealerEnabled()	{ return getBoolean("AI_HEALER_ENABLED", false); }
+    public static String getAIHealerProvider()	{ return get("AI_HEALER_PROVIDER", "Ollama"); }
+    public static String getAIHealerApiKey()	{ return get("AI_HEALER_API_KEY", ""); }
 }
