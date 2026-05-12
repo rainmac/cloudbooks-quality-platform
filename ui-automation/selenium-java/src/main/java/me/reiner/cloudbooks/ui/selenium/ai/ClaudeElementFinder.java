@@ -24,7 +24,8 @@ public class ClaudeElementFinder implements AIWebElementLocator {
 	private static String WEB_ELEMENT_NOT_FOUND = "WEB ELEMENT NOT FOUND!";
 	
 	private AnthropicClient client;
-	private Model model = Model.CLAUDE_HAIKU_4_5;
+//	private Model model = Model.CLAUDE_HAIKU_4_5;
+	private Model model = Model.of(ConfigManager.getAIHealerModel());
 	private long maxToken = 1024L;
 	
 	private ClaudeElementFinder() {

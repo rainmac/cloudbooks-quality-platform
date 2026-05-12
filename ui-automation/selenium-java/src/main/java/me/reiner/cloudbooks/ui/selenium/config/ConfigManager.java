@@ -78,5 +78,6 @@ public class ConfigManager {
  // ─── AI-specific getters ─────────────────
     public static boolean isAIHealerEnabled()	{ return getBoolean("AI_HEALER_ENABLED", false); }
     public static String getAIHealerProvider()	{ return get("AI_HEALER_PROVIDER", "Ollama"); }
+    public static String getAIHealerModel()	{ return get("AI_HEALER_MODEL", ""); }
     public static String getAIHealerApiKey()	{ return get("AI_HEALER_API_KEY", ""); }
 }
