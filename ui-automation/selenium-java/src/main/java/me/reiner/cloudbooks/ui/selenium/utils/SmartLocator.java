@@ -20,6 +20,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 
 import me.reiner.cloudbooks.ui.selenium.ai.AIWebElementLocator;
 import me.reiner.cloudbooks.ui.selenium.ai.ClaudeElementFinder;
+import me.reiner.cloudbooks.ui.selenium.ai.OllamaElementFinder;
 import me.reiner.cloudbooks.ui.selenium.config.ConfigManager;
 import me.reiner.cloudbooks.ui.selenium.model.Locator;
 import me.reiner.cloudbooks.ui.selenium.model.LocatorContext;
@@ -42,7 +43,7 @@ public class SmartLocator {
 		pageElements = jsonRootNode.at("/locators");		
 	}
 	
-	public WebElement findElement(String elementKey) throws IOException {
+	public WebElement findElement(String elementKey) throws Exception {
 	
 		//	1. Read Locator JSON file
 		JsonNode elementLocatorRoot = pageElements.get(elementKey);
@@ -93,9 +94,10 @@ public class SmartLocator {
 		
 	}
 	
-	public Locator findElementLocatorUsingAI(WebDriver driver, LocatorContext elementLocator) throws IOException {
+	public Locator findElementLocatorUsingAI(WebDriver driver, LocatorContext elementLocator) throws Exception {
 		
 		AIWebElementLocator ai;
+		log.info("Locating web element using {}.", ConfigManager.getAIHealerProvider());
 		
 		if (ConfigManager.getAIHealerProvider().equals("CLAUDE_CODE")) {
 			ai = ClaudeElementFinder.getInstance();
@@ -103,7 +105,8 @@ public class SmartLocator {
 			
 		}
 		else if (ConfigManager.getAIHealerProvider().equals("OLLAMA")) {
-			// call findLocator for Ollama here
+			ai = OllamaElementFinder.getInstance();
+			return ai.findLocator(driver, elementLocator);
 		}
 		
 		return null;

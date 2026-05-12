@@ -16,7 +16,7 @@ public class InventoryPage extends BasePage {
 		smartElement = new SmartLocator(driver, "InventoryPage");
 	}
 	
-	public WebElement shoppingCartLink() throws IOException {
+	public WebElement shoppingCartLink() throws Exception {
 		return smartElement.findElement("lnkShoppingCart");
 	}
 

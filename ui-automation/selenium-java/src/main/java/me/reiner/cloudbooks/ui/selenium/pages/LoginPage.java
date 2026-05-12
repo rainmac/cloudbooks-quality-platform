@@ -20,7 +20,7 @@ public class LoginPage extends BasePage {
 		log.debug("LoginPage initialized");
 	}
 	
-	public void login(String username, String password) throws IOException {
+	public void login(String username, String password) throws Exception {
 		log.debug("Entering username: {}", username);
 		smartLocator.findElement("txtUsername").sendKeys("standard_user");
 		smartLocator.findElement("txtPassword").sendKeys("secret_sauce");

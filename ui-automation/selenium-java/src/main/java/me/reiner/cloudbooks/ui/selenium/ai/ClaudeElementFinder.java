@@ -1,7 +1,5 @@
 package me.reiner.cloudbooks.ui.selenium.ai;
 
-import java.io.IOException;
-
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 
@@ -20,11 +18,9 @@ import me.reiner.cloudbooks.ui.selenium.utils.PageSourceUtils;
 
 public class ClaudeElementFinder implements AIWebElementLocator {
 	
-	private static volatile ClaudeElementFinder instance;
-	private static String WEB_ELEMENT_NOT_FOUND = "WEB ELEMENT NOT FOUND!";
+	private static final String WEB_ELEMENT_NOT_FOUND = "WEB ELEMENT NOT FOUND!";
 	
 	private AnthropicClient client;
-//	private Model model = Model.CLAUDE_HAIKU_4_5;
 	private Model model = Model.of(ConfigManager.getAIHealerModel());
 	private long maxToken = 1024L;
 	
@@ -34,24 +30,20 @@ public class ClaudeElementFinder implements AIWebElementLocator {
 			    .build();
 	}
 	
+	private static class Holder {
+        private static final ClaudeElementFinder INSTANCE = new ClaudeElementFinder();
+    }
+	
 	public static ClaudeElementFinder getInstance() {
-		if (instance == null) {
-			synchronized (ClaudeElementFinder.class) {
-				if (instance == null) {
-					instance = new ClaudeElementFinder();
-				}
-			}
-		}
-		
-		return instance;
-	}
+        return Holder.INSTANCE;
+    }
 
 	@Override
-	public Locator findLocator(WebDriver driver, LocatorContext elementContext) throws IOException {
+	public Locator findLocator(WebDriver driver, LocatorContext elementContext) throws Exception {
 		
 		String pageSource = PageSourceUtils.getCleanPageSource(driver);
 		
-		String message = "Act as a Selenium Architect. Find the most stable, unique locator for the target.\r\n"
+		String message = "Act as a Selenium Architect. Find the most stable, unique locator for the target then generate the JSON Response.\r\n"
 				+ "### Priority Ranking\r\n"
 				+ "1. [data-testid, data-cy] > 2. [aria-label, role] > 3. [Static ID] > 4. [Unique Text] > 5. [Semantic Class]\r\n"
 				+ "\r\n"
@@ -99,7 +91,7 @@ public class ClaudeElementFinder implements AIWebElementLocator {
         Locator foundElement = mapper.readValue(cleanedAILocator, Locator.class);
         
         if (generatedAILocator.equals(WEB_ELEMENT_NOT_FOUND) || foundElement.getConfidence() < 0.60) {
-        	throw new NoSuchElementException("Unable to find Web Element using AI!");
+        	throw new NoSuchElementException("Unable to find Web Element using Claude Code AI!");
         }
         
         return foundElement;

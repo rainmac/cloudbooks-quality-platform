@@ -1,6 +1,5 @@
 package me.reiner.cloudbooks.ui.selenium.tests;
 
-import java.io.IOException;
 import java.time.Duration;
 
 import org.testng.Assert;
@@ -23,7 +22,7 @@ public class LoginTest extends BaseTest {
 	@Test(description = "Valid user can log in successfully")
     @Story("User login")
     @Severity(SeverityLevel.CRITICAL)
-	public void successfulLogin() throws InterruptedException, IOException {
+	public void successfulLogin() throws InterruptedException, Exception {
 		LoginPage loginPage = new LoginPage(driver);
 		loginPage.login(ConfigManager.getUsername(), ConfigManager.getPassword());
 		
