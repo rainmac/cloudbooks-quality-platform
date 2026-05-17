@@ -31,7 +31,7 @@ public class BaseTest {
 	    		ConfigManager.getBrowser());
 	}
 	
-	@BeforeMethod
+	@BeforeMethod (alwaysRun = true)
 	public void setup(java.lang.reflect.Method method) {
 		String testName = method.getName();
 		LoggerUtils.setTestContext(testName, ConfigManager.getBrowser(), ConfigManager.getEnv());
@@ -52,7 +52,7 @@ public class BaseTest {
 	    log.info("WebDriver initialized successfully");
 	}
 	
-	@AfterMethod
+	@AfterMethod(alwaysRun = true)
 	public void cleanup(ITestResult result) {
 		String testName = result.getName();
 
@@ -69,7 +69,9 @@ public class BaseTest {
 
         log.info("========== Ending Test: {} ==========", testName);
         
-		driver.close();
+        if (driver != null) {
+        	driver.quit();
+        }
 		
 		LoggerUtils.clearContext();
 	}

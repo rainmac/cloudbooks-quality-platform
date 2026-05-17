@@ -42,33 +42,7 @@ public class ClaudeElementFinder implements AIWebElementLocator {
 	public Locator findLocator(WebDriver driver, LocatorContext elementContext) throws Exception {
 		
 		String pageSource = PageSourceUtils.getCleanPageSource(driver);
-		
-		String message = "Act as a Selenium Architect. Find the most stable, unique locator for the target then generate the JSON Response.\r\n"
-				+ "### Priority Ranking\r\n"
-				+ "1. [data-testid, data-cy] > 2. [aria-label, role] > 3. [Static ID] > 4. [Unique Text] > 5. [Semantic Class]\r\n"
-				+ "\r\n"
-				+ "### Constraints\r\n"
-				+ "- NO absolute/positional XPaths (e.g., /div[1]/span[2]).\r\n"
-				+ "- NO utility-only CSS (e.g., Tailwind 'mb-4', 'flex').\r\n"
-				+ "- NO dynamic/randomized IDs.\r\n"
-				+ "\r\n"
-				+ "### Element Context\r\n"
-				+ "- Target: " + elementContext.getSemanticLabel() + "\r\n"
-				+ "- Details: " + elementContext.getVisualHint() + " | " + elementContext.getAriaRole() + "\r\n"
-				+ "- Surrounding: " + String.join(", ", elementContext.getNearbyText()) + " | Form: " + elementContext.getFormContext() + "\r\n"
-				+ "\r\n"
-				+ "### HTML Snapshot\r\n"
-				+ "```html\r\n"
-				+ pageSource + "\r\n"
-				+ "```\r\n"
-				+ "\r\n"
-				+ "### JSON Response (No Prose)\r\n"
-				+ "{\r\n"
-				+ "  \"strategy\": \"css\" | \"xpath\" | \"id\" | \"name\",\r\n"
-				+ "  \"value\": \"string\",\r\n"
-				+ "  \"confidence\": 0.0,\r\n"
-				+ "}\r\n"
-				+ "If no match: {\"strategy\": null, \"value\": null, \"confidence\": 0}";
+		String message = LocatorPromptBuilder.buildLocatorPrompt(elementContext, pageSource);
 		
 		// Build the message parameters
         MessageCreateParams params = MessageCreateParams.builder()

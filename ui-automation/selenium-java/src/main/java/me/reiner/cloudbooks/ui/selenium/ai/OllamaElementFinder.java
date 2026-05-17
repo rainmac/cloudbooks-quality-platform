@@ -44,33 +44,7 @@ public class OllamaElementFinder implements AIWebElementLocator {
 	public Locator findLocator(WebDriver driver, LocatorContext elementContext) throws Exception {
 		
 		String pageSource = PageSourceUtils.getCleanPageSource(driver);
-		
-		String promptMessage = "Act as a Selenium Architect. Find the most stable, unique locator for the target then generate the JSON Response.\r\n"
-				+ "### Priority Ranking\r\n"
-				+ "1. [data-testid, data-cy] > 2. [aria-label, role] > 3. [Static ID] > 4. [Unique Text] > 5. [Semantic Class]\r\n"
-				+ "\r\n"
-				+ "### Constraints\r\n"
-				+ "- NO absolute/positional XPaths (e.g., /div[1]/span[2]).\r\n"
-				+ "- NO utility-only CSS (e.g., Tailwind 'mb-4', 'flex').\r\n"
-				+ "- NO dynamic/randomized IDs.\r\n"
-				+ "\r\n"
-				+ "### Element Context\r\n"
-				+ "- Target: " + elementContext.getSemanticLabel() + "\r\n"
-				+ "- Details: " + elementContext.getVisualHint() + " | " + elementContext.getAriaRole() + "\r\n"
-				+ "- Surrounding: " + String.join(", ", elementContext.getNearbyText()) + " | Form: " + elementContext.getFormContext() + "\r\n"
-				+ "\r\n"
-				+ "### HTML Snapshot\r\n"
-				+ "```html\r\n"
-				+ pageSource + "\r\n"
-				+ "```\r\n"
-				+ "\r\n"
-				+ "### JSON Response (No Prose)\r\n"
-				+ "{\r\n"
-				+ "  \"strategy\": \"css\" | \"xpath\" | \"id\" | \"name\",\r\n"
-				+ "  \"value\": \"string\",\r\n"
-				+ "  \"confidence\": 0.0,\r\n"
-				+ "}\r\n"
-				+ "If no match: {\"strategy\": null, \"value\": null, \"confidence\": 0}";
+		String promptMessage = LocatorPromptBuilder.buildLocatorPrompt(elementContext, pageSource);
 		
 		ObjectMapper mapper = new ObjectMapper();
 		ObjectNode root = mapper.createObjectNode();
@@ -94,6 +68,10 @@ public class OllamaElementFinder implements AIWebElementLocator {
             byte[] input = jsonInputString.getBytes("utf-8");
             os.write(input, 0, input.length);
         }
+        catch(Exception ex) {
+			log.error("Error sending request to Ollama server: " + ex.getMessage());
+			throw new Exception("Error sending request to Ollama server: " + ex.getMessage());
+		}
 
         int code = conn.getResponseCode();
         log.debug("Ollama response code: " + code);
