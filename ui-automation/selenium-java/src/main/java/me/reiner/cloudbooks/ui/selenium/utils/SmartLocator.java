@@ -90,7 +90,7 @@ public class SmartLocator {
 			}
 		}
 		
-		throw new NoSuchElementException("Web Element " + elementKey + " not found using all its locators including AI.");
+		throw new NoSuchElementException("Web Element " + elementKey + " not found using all its locators.");
 		
 	}
 	
