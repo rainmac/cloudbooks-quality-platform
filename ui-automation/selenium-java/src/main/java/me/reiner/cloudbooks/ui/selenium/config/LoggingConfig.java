@@ -1,4 +1,4 @@
-package me.reiner.cloudbooks.ui.selenium.utils;
+package me.reiner.cloudbooks.ui.selenium.config;
 
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
@@ -6,11 +6,9 @@ import org.apache.logging.log4j.core.LoggerContext;
 import org.apache.logging.log4j.core.config.Configuration;
 import org.apache.logging.log4j.core.config.LoggerConfig;
 
-import me.reiner.cloudbooks.ui.selenium.config.ConfigManager;
-
-public class LoggingConfigurator {
+public class LoggingConfig {
 	
-	private LoggingConfigurator() {}
+	private LoggingConfig() {}
 
     public static void configure() {
         String logLevel = ConfigManager.getLogLevel();   // reads from .env
@@ -39,7 +37,7 @@ public class LoggingConfigurator {
         }
 
         ctx.updateLoggers(); // apply changes live — no restart needed
-        LogManager.getLogger(LoggingConfigurator.class)
+        LogManager.getLogger(LoggingConfig.class)
                   .info("Log level set to [{}] from .env", level);
     }
 }

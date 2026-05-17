@@ -5,11 +5,11 @@ import org.testng.IRetryAnalyzer;
 import org.testng.ITestResult;
 
 import io.github.cdimascio.dotenv.Dotenv;
-import me.reiner.cloudbooks.ui.selenium.utils.LoggerUtil;
+import me.reiner.cloudbooks.ui.selenium.utils.LoggerUtils;
 
 public class RetryAnalyzer implements IRetryAnalyzer {
 
-	protected static final Logger log = LoggerUtil.getLogger(RetryAnalyzer.class);
+	protected static final Logger log = LoggerUtils.getLogger(RetryAnalyzer.class);
 	
 	private int retryCount = 0;
     private static final int MAX_RETRY = resolveMaxRetry();

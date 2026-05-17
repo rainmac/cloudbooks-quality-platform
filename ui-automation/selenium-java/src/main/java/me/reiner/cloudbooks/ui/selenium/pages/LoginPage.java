@@ -5,13 +5,13 @@ import java.io.IOException;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.WebDriver;
 
-import me.reiner.cloudbooks.ui.selenium.utils.LoggerUtil;
+import me.reiner.cloudbooks.ui.selenium.utils.LoggerUtils;
 import me.reiner.cloudbooks.ui.selenium.utils.SmartLocator;
 
 public class LoginPage extends BasePage {
 	
 	private SmartLocator smartLocator;
-	private static final Logger log = LoggerUtil.getLogger(LoginPage.class);
+	private static final Logger log = LoggerUtils.getLogger(LoginPage.class);
 	
 	
 	public LoginPage(WebDriver driver) throws IOException {

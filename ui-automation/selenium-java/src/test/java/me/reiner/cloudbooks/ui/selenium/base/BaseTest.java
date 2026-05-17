@@ -14,18 +14,18 @@ import org.testng.annotations.BeforeSuite;
 
 import io.qameta.allure.Allure;
 import me.reiner.cloudbooks.ui.selenium.config.ConfigManager;
+import me.reiner.cloudbooks.ui.selenium.config.LoggingConfig;
 import me.reiner.cloudbooks.ui.selenium.driver.DriverFactory;
-import me.reiner.cloudbooks.ui.selenium.utils.LoggerUtil;
-import me.reiner.cloudbooks.ui.selenium.utils.LoggingConfigurator;
+import me.reiner.cloudbooks.ui.selenium.utils.LoggerUtils;
 
 public class BaseTest {
 	
 	protected WebDriver driver;
-	protected static final Logger log = LoggerUtil.getLogger(BaseTest.class);
+	protected static final Logger log = LoggerUtils.getLogger(BaseTest.class);
 	
 	@BeforeSuite(alwaysRun = true)
 	public void globalSetup() {
-	    LoggingConfigurator.configure();
+	    LoggingConfig.configure();
 	    log.info("Framework initialized | ENV={} | BROWSER={}",
 	    		ConfigManager.getEnv(),
 	    		ConfigManager.getBrowser());
@@ -34,7 +34,7 @@ public class BaseTest {
 	@BeforeMethod
 	public void setup(java.lang.reflect.Method method) {
 		String testName = method.getName();
-		LoggerUtil.setTestContext(testName, ConfigManager.getBrowser(), ConfigManager.getEnv());
+		LoggerUtils.setTestContext(testName, ConfigManager.getBrowser(), ConfigManager.getEnv());
 
 		log.info("========== Starting Test: {} ==========", testName);
 	    log.debug("Initializing WebDriver — browser: {}, headless: {}",
@@ -71,7 +71,7 @@ public class BaseTest {
         
 		driver.close();
 		
-		LoggerUtil.clearContext();
+		LoggerUtils.clearContext();
 	}
 	
 	private void attachScreenshot(String testName) {

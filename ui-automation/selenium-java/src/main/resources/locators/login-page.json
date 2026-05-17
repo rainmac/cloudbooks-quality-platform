@@ -34,8 +34,8 @@
 		        "nearbyText":    ["Login", "Sign In", "Submit", "Continue"],
 		        "formContext":   "Last interactive element in the login form"
 			},
-			"primary": { "strategy": "id",    "value": "login-button" },
-			"fallback1": { "strategy": "className",   "value": "submit-button" }
+			"primary": { "strategy": "id",    "value": "login-button1" },
+			"fallback1": { "strategy": "className",   "value": "submit-button1" }
 		}
 	}
 }

@@ -28,7 +28,7 @@ import me.reiner.cloudbooks.ui.selenium.model.LocatorElement;
 
 public class SmartLocator {
 	
-	private static final Logger log = LoggerUtil.getLogger(SmartLocator.class);
+	private static final Logger log = LoggerUtils.getLogger(SmartLocator.class);
 	
 	private WebDriver driver;
 	private ObjectMapper mapper = new ObjectMapper();

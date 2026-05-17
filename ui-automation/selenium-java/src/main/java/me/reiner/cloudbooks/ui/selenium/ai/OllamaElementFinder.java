@@ -19,12 +19,12 @@ import me.reiner.cloudbooks.ui.selenium.config.ConfigManager;
 import me.reiner.cloudbooks.ui.selenium.model.Locator;
 import me.reiner.cloudbooks.ui.selenium.model.LocatorContext;
 import me.reiner.cloudbooks.ui.selenium.utils.JsonUtils;
-import me.reiner.cloudbooks.ui.selenium.utils.LoggerUtil;
+import me.reiner.cloudbooks.ui.selenium.utils.LoggerUtils;
 import me.reiner.cloudbooks.ui.selenium.utils.PageSourceUtils;
 
 public class OllamaElementFinder implements AIWebElementLocator {
 	
-	private static final Logger log = LoggerUtil.getLogger(OllamaElementFinder.class);
+	private static final Logger log = LoggerUtils.getLogger(OllamaElementFinder.class);
 	
 	private final String AI_SERVER = "http://localhost:11434/api/generate";
     private final String AI_MODEL = ConfigManager.getAIHealerModel();
