@@ -22,8 +22,8 @@ public class LoginPage extends BasePage {
 	
 	public void login(String username, String password) throws Exception {
 		log.debug("Entering username: {}", username);
-		smartLocator.findElement("txtUsername").sendKeys("standard_user");
-		smartLocator.findElement("txtPassword").sendKeys("secret_sauce");
+		smartLocator.findElement("txtUsername").sendKeys(username);
+		smartLocator.findElement("txtPassword").sendKeys(password);
 		smartLocator.findElement("btnLogin").click();
 	}
 
