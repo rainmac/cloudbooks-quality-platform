@@ -28,8 +28,6 @@ public class LoginTest extends BaseTest {
 		
 		InventoryPage inventoryPage = new InventoryPage(driver);
 		Assert.assertTrue(inventoryPage.shoppingCartLink().isDisplayed());
-		
-		Thread.sleep(Duration.ofSeconds(3));
 	}
 
 }
