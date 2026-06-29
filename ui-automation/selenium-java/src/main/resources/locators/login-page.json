@@ -1,0 +1,41 @@
+{
+	"page": "LoginPage",
+	"locators": {
+		"txtUsername": {
+			"description": "Username input field",
+			"context": {
+				"semanticLabel": "The input field where the user types their username or email address",
+		        "visualHint":    "Typically the first text input on the login form, above the password field",
+		        "ariaRole":      "textbox",
+		        "nearbyText":    ["Username", "Email", "User ID"],
+		        "formContext":   "Part of the main login form, usually inside a card or centered panel"
+			},
+			"primary": { "strategy": "id",    "value": "user-name" },
+			"fallback1": { "strategy": "css",   "value": "input[placeholder='Username']" }
+		},
+		"txtPassword": {
+			"description": "Password input field",
+			"context": {
+				"semanticLabel": "The input field where the user types their password",
+		        "visualHint":    "Typically the second text input on the login form, between the username field and login button.",
+		        "ariaRole":      "textbox",
+		        "nearbyText":    ["Password", "Username", "Email", "User ID"],
+		        "formContext":   "Part of the main login form, usually inside a card or centered panel"
+			},
+			"primary": { "strategy": "id",    "value": "password" },
+			"fallback1": { "strategy": "css",   "value": "input[placeholder='Password']" }
+		},
+		"btnLogin": {
+			"description": "Submit login form",
+			"context": {
+				"semanticLabel": "The primary button that submits the login form",
+		        "visualHint":    "A prominent button on the login form, below the username field and password.",
+		        "ariaRole":      "button",
+		        "nearbyText":    ["Login", "Sign In", "Submit", "Continue"],
+		        "formContext":   "Last interactive element in the login form"
+			},
+			"primary": { "strategy": "id",    "value": "login-button" },
+			"fallback1": { "strategy": "className",   "value": "submit-button" }
+		}
+	}
+}

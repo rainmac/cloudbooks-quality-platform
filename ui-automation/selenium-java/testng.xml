@@ -1,0 +1,11 @@
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite name="Test Suite">
+    <listeners>
+        <listener class-name="me.reiner.cloudbooks.ui.selenium.retry.RetryAnnotationTransformer"/>
+    </listeners>
+    <test name="Regression">
+        <classes>
+            <class name="me.reiner.cloudbooks.ui.selenium.tests.LoginTest"/>
+        </classes>
+    </test>
+</suite>

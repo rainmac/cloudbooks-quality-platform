@@ -1,0 +1,9 @@
+target/
+test-output/
+.vscode/
+.mvn
+.settings
+.project
+.classpath
+.env
+.allure

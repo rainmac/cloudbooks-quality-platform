@@ -1,0 +1,17 @@
+{
+	"page": "InventoryPage",
+	"locators": {
+		"lnkShoppingCart": {
+			"description": "Shopping cart link",
+			"context": {
+				"semanticLabel": "The link where the user may click it to view all items in the shopping cart",
+		        "visualHint":    "Typically an image link at the top right of the page and mostly the image is a shopping cart.",
+		        "ariaRole":      "link",
+		        "nearbyText":    ["Shopping Cart"],
+		        "formContext":   "Part of the top header, usually inside a div or header"
+			},
+			"primary": { "strategy": "classname",   "value": "shopping_cart_link" },
+			"fallback1": { "strategy": "css",   "value": "a[data-test='shopping-cart-link']" }
+		}
+	}
+}
